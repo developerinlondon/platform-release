@@ -21,7 +21,7 @@ args = parser.parse_args()
 
 tree = ElementTree()
 tree.parse(args.manifest)
-current_version = tree.getroot().find("project[@name='"+repo+"']").get('revision')
+current_version = tree.getroot().find("project[@name='"+args.repo+"']").get('revision')
 
 if args.new_version == '':
   new_version = versioning_library.get_last_tag(args.repo)

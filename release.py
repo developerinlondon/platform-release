@@ -70,17 +70,17 @@ for repo in repos:
   os.system("./update-manifest.py --repo "+repo)
 
 os.chdir('../cp_manifest')
-print "==> Creating Release Branch: release/"+new_release+"\n"
-os.system('git checkout -b release/'+new_release)
+# print "==> Creating Release Branch: release/"+new_release+"\n"
+# os.system('git checkout -b release/'+new_release)
 # update release note for osmo
 versioning_library.generate_release_note('cp_manifest', last_release, new_release, args.release_note_file, args.skip_release_note)
 
-os.system('git add -A')
-os.system('git commit -m"release '+new_release+' created"')
-os.system('git tag '+new_release)
-if args.skip_push:
-  print '==> Skipping Pushing!'
-else:
-  print '==> Pushing Tags and Releases!'
-  os.system('git push --tags')
-  os.system('git push origin release/'+new_release)
+# os.system('git add -A')
+# os.system('git commit -m"release '+new_release+' created"')
+# os.system('git tag '+new_release)
+# if args.skip_push:
+#   print '==> Skipping Pushing!'
+# else:
+#   print '==> Pushing Tags and Releases!'
+#   os.system('git push --tags')
+#   os.system('git push origin release/'+new_release)
