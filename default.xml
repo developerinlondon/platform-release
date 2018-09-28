@@ -18,9 +18,6 @@
   <!-- tf-stack-vpc-peering -->
   <project name="tf-stack-vpc-peering"      path=".terraform/stacks/vpc-peering"       revision="refs/tags/0.2.0" groups="tf-stack-vpc-peering"/>
   
-  <!-- release -->
-  <project name="cp-release"      path="./"       revision="CPS-617" groups="release"/>
-  
   <!-- ansible-stack-system-users -->
   <!-- openshift build -->
   <project name="tf-stack-clusters"                             path=".terraform/stacks/clusters"             revision="refs/tags/0.1.0" groups="cluster-openshift, cluster-openshift-destroy"/>

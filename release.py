@@ -19,35 +19,35 @@ parser.add_argument('--manifest_branch', default='master', dest='manifest_branch
 args = parser.parse_args()
 
 repos=[
-  # "tf-module-vpc",
-  # "tf-module-vpc-peering",
-  # "tf-module-vpc-dns",
-  # "tf-module-vpn-connection",
-  # "tf-module-vpc-s3-endpoint",
-  # "tf-module-vpn-gateway",
-  # "tf-module-jenkins",
-  # "tf-stack-vpc-peering",
-  # "tf-module-osmo-openshift",
-  # "tf-stack-clusters",
-  # "ansible-role-openshift-inventory-gen",
-  # "ansible-openshift-preparation",
-  # "ansible-role-aws-monitor-scripts",
-  # "ansible-role-openshift-postinstall",
-  # "ansible-role-openshift-postinstall-secret-enc",
-  # "ansible-openshift-users",
-  # "ansible-role-openshift-testing",
-  # "ansible-role-openshift-mark-provisioned",
-  # "ansible-role-fluentd",
-  # "ansible-role-openshift-checks",
-  # "ansible-role-nix-users",
-  # "ansible-role-chrony",
-  # "ansible-role-openshift-delete-env-cleanup",
-  # "ansible-role-osmo-test-framework",
-  # "ansible-role-ossec-wazuh",
-  # "ansible-role-pvc-backup",
-  # "ansible-role-vault",
-  # "ansible-role-transit-vpc",
-  # "ansible-role-os-hardening-rhel7",
+  "tf-module-vpc",
+  "tf-module-vpc-peering",
+  "tf-module-vpc-dns",
+  "tf-module-vpn-connection",
+  "tf-module-vpc-s3-endpoint",
+  "tf-module-vpn-gateway",
+  "tf-module-jenkins",
+  "tf-stack-vpc-peering",
+  "tf-module-osmo-openshift",
+  "tf-stack-clusters",
+  "ansible-role-openshift-inventory-gen",
+  "ansible-openshift-preparation",
+  "ansible-role-aws-monitor-scripts",
+  "ansible-role-openshift-postinstall",
+  "ansible-role-openshift-postinstall-secret-enc",
+  "ansible-openshift-users",
+  "ansible-role-openshift-testing",
+  "ansible-role-openshift-mark-provisioned",
+  "ansible-role-fluentd",
+  "ansible-role-openshift-checks",
+  "ansible-role-nix-users",
+  "ansible-role-chrony",
+  "ansible-role-openshift-delete-env-cleanup",
+  "ansible-role-osmo-test-framework",
+  "ansible-role-ossec-wazuh",
+  "ansible-role-pvc-backup",
+  "ansible-role-vault",
+  "ansible-role-transit-vpc",
+  "ansible-role-os-hardening-rhel7",
   # "ansible-role-build-tf-project",
   "osmo"
 ]
@@ -63,6 +63,9 @@ new_release  = versioning_library.get_new_version(last_release,args.type)
 # current_version = tree.getroot().find("project[@name='"+repo+"']").get('revision')
 
 # run repo on cp_manifest to get the manifest file for the specified group
+
+for line in open(filename,'r'):
+  
 for repo in repos:
   print "\n==> Processing Repo: "+repo+"\n"
   os.system("./tag-repo.py --repo "+repo+('',' --skip-release-note')[args.skip_release_note]+('',' --skip-push')[args.skip_push]+('',' --verbose')[args.verbose]+" --release-note-file "+args.release_note_file)

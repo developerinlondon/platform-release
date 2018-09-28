@@ -1,0 +1,59 @@
+tf-module-osmo-openshift 0.2.0
+------------------------------
+CPS-623: Add CNAME record for incapsula
+
+tf-stack-clusters 0.2.0
+-----------------------
+CPS-629: Change S3 locations
+CPS-629: Change dynamodb
+CPS-629: Change remote state locations
+Enable multi AZ build
+
+ansible-role-openshift-inventory-gen 0.10.0
+-------------------------------------------
+CPS-584: Disable service catalog
+
+ansible-openshift-users 0.10.0
+------------------------------
+CPS-9: Ansible on old Jenkins doesn't support some openshift_raw parameters (pull request #19)
+
+ansible-role-openshift-testing 0.10.0
+-------------------------------------
+CPS-496 Fixing issues with test application
+
+ansible-role-nix-users 0.19.0
+-----------------------------
+CPS-614 ansible-role-system-users -> system-users (pull request #39)
+CPS-589: Add IoannisG to nix-users
+Merged in CPS-549 (pull request #37)
+Update to matejr password
+CPS-569 add own playbook (pull request #36)
+Merged in CPS-540-missing-chars (pull request #35)
+
+ansible-role-build-tf-project 0.2.0
+-----------------------------------
+CPS-521: Change osmo deployment path
+CPS-499: Remove terraform fmt
+Delete terraforn fmt. Linting is handled with precommit hooks.
+Remove terraform fmt because it does recurse fmt into hidden files in .terraform folder
+CPS-462 add a new task to check for a layer
+
+osmo 1.2.0
+----------
+CPS-496  Fixing issues with test application
+Merged in CPS-602 (pull request #259)
+CPS-583 add parameter to deploy function (pull request #258)
+Merged in CPS-591 (pull request #257)
+CPS-591: Enable Service Cataloge deployment
+CPS-584: Disable service catalog
+CPS-576 subnet ids fix (pull request #255)
+CPS-576 fix vpc source (pull request #254)
+CPS-576: Change datasource location
+CPS-9: Leave gluster cluster alone on install/destroy (pull request #249)
+Merged in CPS-462 (pull request #252)
+CPS-499-fix: Add path for terraform openshift
+Building openshift terraform from git branch CPS-499 Add branch for CPS-499 Build openshift from modules on git source Add build branch inside osmo repo Changing tf_environment to pick up branchbuilds Getting path correct for build Merge osmo-terraform-ng vars to osmo terraform vars Configure iops for docker root vol Testing incapsula Add remote state for mocloud.co.uk Create CNAME record in prod called ola variabilize mocloudzone_id Enable creating of CNAME record only in prod
+CPS-463: Building from master of osmo-terraform-ng
+CPS-462 layered delete
+CPS-466 version bump for osmo-terraform-ng to 1.1.2 (pull request #246)
+CPS-466 bump version of osmo-terraform-ng to include bucket location changes and upgraded iops values  (pull request #245)

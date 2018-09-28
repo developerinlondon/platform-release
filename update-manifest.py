@@ -26,11 +26,28 @@ current_version = tree.getroot().find("project[@name='"+args.repo+"']").get('rev
 if args.new_version == '':
   new_version = versioning_library.get_last_tag(args.repo)
 else:
-  new_version = args.new_version
+  new_version = 'refs/tags/'+args.new_version
 
 if current_version == new_version:
   print "==> " + args.repo+": "+new_version+" already set. Skipping!"
 else:
-  print "==> Updating "+args.repo+": "+a_repo['version'] +" to "+new_version
-  tree.getroot().find("project[@name='"+repo+"']").set('revision',new_version)
+  print "==> Updating "+args.repo+": "+current_version +" to "+new_version
+  tree.getroot().find("project[@name='"+args.repo+"']").set('revision',new_version)
   tree.write(args.manifest)
+
+
+# clone cp_manifest.xml repo master branch
+# open the file called default.xml
+# loop through each line
+# if line starts with <project
+#   read the name of the project
+#   new_version = versioning_library.get_last_tag(project_name)
+#   read the existing version
+#   if version is different then new version
+#     write to new file the updated version
+#   else
+#     write to new file old version
+#  end for loop
+# close new file
+# close old file
+# move old  

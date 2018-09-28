@@ -1,6 +1,8 @@
 import commands
 import os
 import re
+import string
+import sys
 
 def get_last_tag(repo_name):
   version = commands.getstatusoutput("git ls-remote --tags git@bitbucket.org:motabilityoperations/"+repo_name+" 2>/dev/null | awk -F/ -f "+os.path.dirname(os.path.realpath(__file__))+"/latest_tag.awk")
@@ -44,7 +46,9 @@ def get_new_version(last_version,release_type='minor'):
     print "new version is: "+new_version
     return new_version
 
-def generate_release_note(repo_name, last_version, new_version, release_note_file, empty_release_note):
+def generate_release_note(repo_name, last_version, new_version, empty_release_note):
+  print 'last:'+last_version
+  print 'new:'+new_version
   if empty_release_note:
     print "==> Skipping Creating Release Note"
   else:
@@ -52,10 +56,25 @@ def generate_release_note(repo_name, last_version, new_version, release_note_fil
       log_filter = ''
     else:
       pattern = re.compile("^(\d+\.\d+)\.\d+$")
-      log_filter = pattern.match(last_version).group(1)+'.0..HEAD '
+      match = pattern.match(last_version)
+      if hasattr(match,'group'):
+        log_filter = match.group(1)+'.0..HEAD '
+      else:
+        log_filter = ''
     
     release_note = repo_name+" "+new_version+"\n"+"-"*len(repo_name+" "+new_version)+"\n"
-    release_note = release_note+commands.getstatusoutput("git log "+log_filter+' --pretty=format:%s')[1]
+    release_note = release_note+commands.getstatusoutput("git log "+log_filter+' --pretty=format:%s')[1] + "\n\n"
     
-    insert_to_file(release_note_file,release_note)
-    print "==> Release Note added to "+release_note_file
+    return release_note
+    # insert_to_file(release_note_file,release_note)
+    # print "==> Release Note added to "+release_note_file
+
+def update_tag(filename, repo, new_tag, outputfile):
+  f = open(outputfile,'w')
+  for line in open(filename,'r'):
+    output_line = line
+    if re.match(r'.*?project name="'+repo+'".*?', output_line):
+      output_line=commands.getstatusoutput('echo \''+output_line+'\' | sed  \'s/revision=\\"[^"]*\\"/revision=\\"'+new_tag+'\\"/\'')[1]
+    f.write(output_line)
+    sys.stdout.write(output_line)
+  f.close()

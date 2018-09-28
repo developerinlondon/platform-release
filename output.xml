@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<manifest>
+  <remote name="origin" fetch="ssh://git@bitbucket.org/motabilityoperations/" />
+  <default revision="master" remote="origin" />
+
+  <!-- tf-stack-vpcs --><!-- tf-stack-vpc-peering -->
+  <project name="tf-module-vpc"             path=".terraform/modules/vpc"             revision="refs/tags/0.3.0" groups="tf-modules, tf-stack-vpcs"/>
+  <project name="tf-module-vpc-peering"     path=".terraform/modules/vpc-peering"     revision="refs/tags/0.1.0" groups="tf-modules, tf-stack-vpcs, tf-stack-vpc-peering"/>
+  <project name="tf-module-vpc-dns"         path=".terraform/modules/vpc-dns"         revision="refs/tags/0.2.0" groups="tf-modules, tf-stack-vpcs"/>
+  <project name="tf-module-vpn-connection"  path=".terraform/modules/vpn-connection"  revision="refs/tags/0.1.0" groups="tf-modules, tf-stack-vpcs"/>
+  <project name="tf-module-vpc-s3-endpoint" path=".terraform/modules/vpc-s3-endpoint" revision="refs/tags/0.1.0" groups="tf-modules, tf-stack-vpcs"/>
+  <project name="tf-module-vpn-gateway"     path=".terraform/modules/vpn-gateway"     revision="refs/tags/0.1.0" groups="tf-modules, tf-stack-vpcs"/>
+  <project name="tf-module-jenkins"         path=".terraform/modules/jenkins"         revision="refs/tags/0.1.0" groups="tf-modules, tf-stack-services"/>
+  
+  <!-- tf-stack-clusters -->
+  <project name="tf-module-osmo-openshift"  path=".terraform/modules/osmo-openshift"   revision="refs/tags/0.2.0" groups="tf-modules, tf-stack-clusters"/>
+  
+  <!-- tf-stack-vpc-peering -->
+  <project name="tf-stack-vpc-peering"      path=".terraform/stacks/vpc-peering"       revision="refs/tags/0.2.0" groups="tf-stack-vpc-peering"/>
+  
+  <!-- ansible-stack-system-users -->
+  <!-- openshift build -->
+  <project name="tf-stack-clusters"                             path=".terraform/stacks/clusters"             revision="refs/tags/0.2.0" groups="cluster-openshift, cluster-openshift-destroy"/>
+  <project name="ansible-role-openshift-inventory-gen"          path="roles/openshift-inventory-gen"          revision="refs/tags/0.10.0"          groups="cluster-openshift, cluster-openshift-destroy, ansible-stack-system-users "/>
+  <project name="ansible-openshift-preparation"                 path="roles/openshift-preparation"            revision="refs/tags/0.10.0"          groups="cluster-openshift, cluster-openshift-destroy"/>
+  <project name="ansible-role-aws-monitor-scripts"              path="roles/ansible-role-aws-monitor-scripts" revision="refs/tags/0.2.0"          groups="cluster-openshift"/>
+  <project name="ansible-role-openshift-postinstall"            path="roles/openshift-postinstall"            revision="refs/tags/0.9.0"          groups="cluster-openshift"/>
+  <project name="ansible-role-openshift-postinstall-secret-enc" path="roles/openshift-postinstall-secret-enc" revision="refs/tags/0.2.0"          groups="cluster-openshift"/>
+  <project name="ansible-openshift-users"                       path="roles/openshift-users"                  revision="refs/tags/0.10.0"          groups="cluster-openshift"/>
+  <project name="ansible-role-openshift-testing"                path="roles/openshift-testing"                revision="refs/tags/0.10.0"          groups="cluster-openshift"/>
+  <project name="ansible-role-openshift-mark-provisioned"       path="roles/openshift-mark-as-stable"         revision="refs/tags/0.3.0"          groups="cluster-openshift"/>
+  <project name="ansible-role-fluentd"                          path="roles/fluentd"                          revision="refs/tags/2.1.0"          groups="cluster-openshift"/>
+  <project name="ansible-role-openshift-checks"                 path="roles/openshift-checks"                 revision="refs/tags/0.2.0"          groups="cluster-openshift"/>
+  <project name="ansible-role-nix-users"                        path="roles/system-users"                     revision="refs/tags/0.19.0"          groups="cluster-openshift, ansible-stack-system-users"/>
+  <project name="ansible-role-chrony"                           path="roles/chrony"                           revision="refs/tags/0.0.1"          groups="cluster-openshift"/>
+  <project name="ansible-role-openshift-delete-env-cleanup"     path="roles/openshift-clean-leftovers"        revision="refs/tags/0.1.0"          groups="cluster-openshift"/>
+  <project name="ansible-role-osmo-test-framework"              path="roles/openshift-test-framework"         revision="refs/tags/0.1.0"          groups="cluster-openshift"/>
+  <project name="ansible-role-ossec-wazuh"                      path="roles/ossec-wazuh"                      revision="refs/tags/0.1.1"          groups="cluster-openshift"/>
+  <project name="ansible-role-pvc-backup"                       path="roles/ansible-pvc-backup"               revision="refs/tags/0.1.0"          groups="cluster-openshift"/>
+  <project name="ansible-role-vault"                            path="roles/vault.client"                     revision="refs/tags/0.1.0"  groups="cluster-openshift"/>
+  <project name="ansible-role-transit-vpc"                      path="roles/openshift-network-testing"        revision="refs/tags/0.2.0"          groups="cluster-openshift"/>
+  <project name="ansible-role-os-hardening-rhel7"               path="roles/openshift-hardening"              revision="refs/tags/0.1.0"          groups="cluster-openshift"/>
+  <project name="ansible-role-build-tf-project"                 path="roles/ansible-role-build-tf-project"    revision="refs/tags/0.2.0"          groups="cluster-openshift, cluster-openshift-destroy"/>
+  <project name="osmo"                                          path="./"                                     revision="refs/tags/1.2.0"          groups="cluster-openshift, cluster-openshift-destroy"/>
+
+</manifest>
