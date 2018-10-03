@@ -57,3 +57,4 @@ CPS-463: Building from master of osmo-terraform-ng
 CPS-462 layered delete
 CPS-466 version bump for osmo-terraform-ng to 1.1.2 (pull request #246)
 CPS-466 bump version of osmo-terraform-ng to include bucket location changes and upgraded iops values  (pull request #245)
+
