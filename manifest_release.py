@@ -17,7 +17,8 @@ parser.add_argument('--release-note-file', default='manifest_release_note.txt', 
 parser.add_argument('--verbose', default=False, dest='verbose', action='store_true', help="verbose Mode. Spits out more info if in verbose mode")
 parser.add_argument('--release-type', default='minor', dest='release_type', action='store', help="Type of release - major/minor/hotfix")
 parser.add_argument('--manifest_tags', default='openshift-cluster', dest='manifest_tags', action='store', help="Name of the Manifest Group to release.")
-parser.add_argument('--manifest_file', default='default.xml', dest='manifest_file', action='store', help="Name of the Manifest File to use.")
+parser.add_argument('--manifest_file', default='manifest.xml', dest='manifest_file', action='store', help="Name of the Manifest File to use.")
+parser.add_argument('--manifest_repo', default='cp_manifest', dest='manifest_repo', action='store', help="Name of the Manifest Repo to use.")
 parser.add_argument('--manifest_branch', default='master', dest='manifest_branch', action='store', help="Name of the Manifest Branch to make the release off of.")
 args = parser.parse_args()
 
@@ -41,24 +42,24 @@ args = parser.parse_args()
 
 cwd = os.getcwd()
 workspace = cwd+'/workspace'
-manifest_file = workspace+'/cp_manifest/'+args.manifest_file
-release_note_file = workspace+'/cp_manifest/release.txt'
+manifest_file = workspace+'/'+ args.manifest_repo +'/'+args.manifest_file
+release_note_file = workspace+'/'+ args.manifest_repo +'/release.txt'
 outputfile = workspace + '/output.xml'
 
 
 os.system( 'rm -fr '+workspace+'; mkdir -p '+workspace)
 os.chdir(workspace)
-os.system('git clone git@bitbucket.org:motabilityoperations/cp_manifest.git; cd cp_manifest; git checkout master;')
+os.system('git clone git@bitbucket.org:motabilityoperations/'+args.manifest_repo+'.git; cd '+args.manifest_repo+'; git checkout master;')
 
 manifest_file_handler = open(outputfile,'w')
 release_note_file_handler = open(release_note_file,'w')
 
-last_release = versioning_library.get_last_release('cp_manifest')
+last_release = versioning_library.get_last_release(args.manifest_repo)
 new_release  = versioning_library.get_new_version(last_release,args.type)
 
-last_version = versioning_library.get_last_tag('cp_manifest')
+last_version = versioning_library.get_last_tag(args.manifest_repo)
 new_version = versioning_library.get_new_version(last_version,args.release_type)
-release_note_file_handler.write(versioning_library.generate_release_note('cp_manifest', last_version, new_version, args.skip_release_note))
+release_note_file_handler.write(versioning_library.generate_release_note(args.manifest_repo, last_version, new_version, args.skip_release_note))
 
 for line in open(manifest_file,'r'):
   output_line = line
@@ -94,7 +95,7 @@ for line in open(manifest_file,'r'):
       os.system('git tag '+new_version)
       print "==> Tagged with "+new_version
       if args.apply:
-       # os.system('git push --tags')
+        os.system('git push --tags')
         print "==> Pushed new tag "+new_version
       else:
         print "==> Skipped Pushing as '--apply' not passed!"
@@ -114,7 +115,7 @@ for line in open(manifest_file,'r'):
 manifest_file_handler.close()
 release_note_file_handler.close()
 
-os.chdir(workspace+'/cp_manifest')
+os.chdir(workspace+'/'+args.manifest_repo)
 os.system('git checkout -b release/'+new_release)
 os.system('cp '+outputfile+' '+manifest_file)
 os.system('git add -A')
