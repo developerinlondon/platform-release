@@ -43,7 +43,8 @@ args = parser.parse_args()
 cwd = os.getcwd()
 workspace = cwd+'/workspace'
 manifest_file = workspace+'/'+ args.manifest_repo +'/'+args.manifest_file
-release_note_file = workspace+'/'+ args.manifest_repo +'/release.txt'
+release_note_source_file = workspace + '/release.txt'
+release_note_destination_file = workspace +'/'+ args.manifest_repo + '/release.txt'
 outputfile = workspace + '/output.xml'
 
 
@@ -52,18 +53,18 @@ os.chdir(workspace)
 os.system('git clone git@bitbucket.org:motabilityoperations/'+args.manifest_repo+'.git; cd '+args.manifest_repo+'; git checkout master;')
 
 manifest_file_handler = open(outputfile,'w')
-release_note_file_handler = open(release_note_file,'w')
+release_note_file_handler = open(release_note_source_file,'w')
 
-last_release = versioning_library.get_last_release(args.manifest_repo)
-new_release  = versioning_library.get_new_version(last_release,args.type)
+last_release_branch = versioning_library.get_last_release_branch(args.manifest_repo)
+new_release_branch  = versioning_library.get_new_release_branch(last_release_branch,args.type)
 
-last_version = versioning_library.get_last_tag(args.manifest_repo)
-new_version = versioning_library.get_new_version(last_version,args.release_type)
-release_note_file_handler.write(versioning_library.generate_release_note(args.manifest_repo, last_version, new_version, args.skip_release_note))
+last_manifest_tag = versioning_library.get_last_tag(args.manifest_repo)
+new_manifest_tag = versioning_library.get_new_tag(last_manifest_tag,args.type)
+release_note_file_handler.write(versioning_library.generate_release_note(args.manifest_repo, last_manifest_tag, new_manifest_tag, args.skip_release_note))
 
 for line in open(manifest_file,'r'):
   output_line = line
-  m = re.search('<project name="(.*?)".*?revision="(.*?)"',line)
+  m = re.search('<project name="(.*?)".*?revision="(.*?)".*?groups="(.*?'+args.manifest_tags+'.*?)"',line)
   if hasattr(m,'group'):
     project_name = m.group(1)
     manifest_version = m.group(2)
@@ -86,7 +87,7 @@ for line in open(manifest_file,'r'):
       print "==> The latest commit on master already tagged to "+head_tag[1]+". Skipping!"
       new_version = last_version
     else:
-      new_version  = versioning_library.get_new_version(last_version,args.release_type)
+      new_version  = versioning_library.get_new_tag(last_version,args.release_type)
 
       if args.verbose:
         print 'new version:'
@@ -116,15 +117,19 @@ manifest_file_handler.close()
 release_note_file_handler.close()
 
 os.chdir(workspace+'/'+args.manifest_repo)
-os.system('git checkout -b release/'+new_release)
+if new_release_branch == last_release_branch:
+  os.system('git checkout release/'+new_release_branch)
+else:
+  os.system('git checkout -b release/'+new_release_branch)
+os.system('cp '+release_note_source_file+' '+release_note_destination_file)
 os.system('cp '+outputfile+' '+manifest_file)
 os.system('git add -A')
-os.system('git commit -m"release '+new_release+' created"')
-os.system('git tag '+new_release)
+os.system('git commit -m"release '+new_manifest_tag+' created"')
+os.system('git tag '+new_manifest_tag)
 if args.apply:
-  print '==> Pushing Tags and Releases '+new_release+'!'
+  print '==> Pushing Tags '+new_manifest_tag+' and Releases '+new_release_branch+'!'
   os.system('git push --tags')
-  os.system('git push origin release/'+new_release)
+  os.system('git push origin release/'+new_release_branch)
 else:
-  print '==> Skipping Pushing as apply not passed!'
+  print '==> Skipping Pushing Tags '+new_manifest_tag+' and Releases '+new_release_branch+' as apply not passed!'
 

@@ -12,12 +12,29 @@ def get_last_tag(repo_name):
     return version[1]
 
 # get all the branches starting with the word 'release' to find out what the last release branch was then create a new release branch
-def get_last_release(repo_name):
+def get_last_release_branch(repo_name):
     version = commands.getstatusoutput('git ls-remote --heads git@bitbucket.org:motabilityoperations/'+repo_name+' 2>/dev/null  | cut -f3,4 -d"/" | grep release | tail -1 | cut -f2 -d"/"')
     if version[1] == '':
       return '0.0.0'
     else:
       return version[1]
+
+def get_new_release_branch(last_version,release_type='minor'):
+    version_bits=last_version.split('.')
+    # bump version
+    if release_type == 'major':
+      version_bits[0] = str(int(version_bits[0])+1)
+      version_bits[1] = '0'
+      version_bits[2] = '0'
+    elif release_type == 'minor':
+      version_bits[1] = str(int(version_bits[1])+1)
+      version_bits[2] = '0'
+    elif release_type == 'hotfix':
+      print "hotfix does not change branch, so will work on: "+last_version
+
+    new_version = '.'.join(version_bits)
+    print "new version is: "+new_version
+    return new_version
 
 def insert_to_file(originalfile,string):
     print "==> updating release note on "+originalfile
@@ -29,18 +46,18 @@ def insert_to_file(originalfile,string):
             f2.write(initial_content)
     os.rename('newfile.txt',originalfile)
 
-def get_new_version(last_version,release_type='minor'):
+def get_new_tag(last_version,release_type='minor'):
     version_bits=last_version.split('.')
     # bump version
     if release_type == 'major':
       version_bits[0] = str(int(version_bits[0])+1)
       version_bits[1] = '0'
+      version_bits[2] = '0'
     elif release_type == 'minor':
       version_bits[1] = str(int(version_bits[1])+1)
+      version_bits[2] = '0'
     elif release_type == 'hotfix':
-      print "\nCRITICAL ERROR: 'hotfix' releases are not currently supported. Please pass 'release-type' of 'major' or 'minor'.\n"
-      exit()  
-    version_bits[2] = '0'   # hotfix version is always zero, release type 'hotfix' is not currently supported.
+      version_bits[2] = str(int(version_bits[2])+1)
 
     new_version = '.'.join(version_bits)
     print "new version is: "+new_version
@@ -61,10 +78,10 @@ def generate_release_note(repo_name, last_version, new_version, empty_release_no
         log_filter = match.group(1)+'.0..HEAD '
       else:
         log_filter = ''
-    
+
     release_note = repo_name+" "+new_version+"\n"+"-"*len(repo_name+" "+new_version)+"\n"
     release_note = release_note+commands.getstatusoutput("git log "+log_filter+' --pretty=format:%s')[1] + "\n\n"
-    
+
     return release_note
     # insert_to_file(release_note_file,release_note)
     # print "==> Release Note added to "+release_note_file
