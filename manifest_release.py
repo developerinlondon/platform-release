@@ -10,16 +10,16 @@ import sys
 
 parser = argparse.ArgumentParser(description='Options')
 # ths script expects cp_manifest folder to have the manifest configs
-parser.add_argument('--type', dest='type', default='minor', action='store', help="Release Type. major/minor/hotfix")
+parser.add_argument('--manifest-release-type', dest='manifest_release_type', default='minor', action='store', help="Manifest Release Type. major/minor/hotfix")
+parser.add_argument('--repo-release-type', default='minor', dest='repo_release_type', action='store', help="Type of release for repos - major/minor/hotfix")
 parser.add_argument('--skip-release-note', default=False, dest='skip_release_note', action='store_true', help="Skip Publishing a release_note.txt file")
 parser.add_argument('--apply', default=False, dest='apply', action='store_true', help="Apply Mode. Pushes the changes to remote.")
 parser.add_argument('--release-note-file', default='manifest_release_note.txt', dest='release_note_file', action='store', help="name of the release_note file")
 parser.add_argument('--verbose', default=False, dest='verbose', action='store_true', help="verbose Mode. Spits out more info if in verbose mode")
-parser.add_argument('--release-type', default='minor', dest='release_type', action='store', help="Type of release - major/minor/hotfix")
-parser.add_argument('--manifest_tags', default='openshift-cluster', dest='manifest_tags', action='store', help="Name of the Manifest Group to release.")
-parser.add_argument('--manifest_file', default='manifest.xml', dest='manifest_file', action='store', help="Name of the Manifest File to use.")
-parser.add_argument('--manifest_repo', default='cp_manifest', dest='manifest_repo', action='store', help="Name of the Manifest Repo to use.")
-parser.add_argument('--manifest_branch', default='master', dest='manifest_branch', action='store', help="Name of the Manifest Branch to make the release off of.")
+parser.add_argument('--manifest-tags', default='openshift-cluster', dest='manifest_tags', action='store', help="Name of the Manifest Group to release.")
+parser.add_argument('--manifest-file', default='manifest.xml', dest='manifest_file', action='store', help="Name of the Manifest File to use.")
+parser.add_argument('--manifest-repo', default='cp_manifest', dest='manifest_repo', action='store', help="Name of the Manifest Repo to use.")
+parser.add_argument('--manifest-branch', default='master', dest='manifest_branch', action='store', help="Name of the Manifest Branch to make the release off of.")
 args = parser.parse_args()
 
 
@@ -56,10 +56,10 @@ manifest_file_handler = open(outputfile,'w')
 release_note_file_handler = open(release_note_source_file,'w')
 
 last_release_branch = versioning_library.get_last_release_branch(args.manifest_repo)
-new_release_branch  = versioning_library.get_new_release_branch(last_release_branch,args.type)
+new_release_branch  = versioning_library.get_new_release_branch(last_release_branch,args.manifest_release_type)
 
 last_manifest_tag = versioning_library.get_last_tag(args.manifest_repo)
-new_manifest_tag = versioning_library.get_new_tag(last_manifest_tag,args.type)
+new_manifest_tag = versioning_library.get_new_tag(last_manifest_tag,args.manifest_release_type)
 release_note_file_handler.write(versioning_library.generate_release_note(args.manifest_repo, last_manifest_tag, new_manifest_tag, args.skip_release_note))
 
 for line in open(manifest_file,'r'):
@@ -87,7 +87,7 @@ for line in open(manifest_file,'r'):
       print "==> The latest commit on master already tagged to "+head_tag[1]+". Skipping!"
       new_version = last_version
     else:
-      new_version  = versioning_library.get_new_tag(last_version,args.release_type)
+      new_version  = versioning_library.get_new_tag(last_version,args.repo_release_type)
 
       if args.verbose:
         print 'new version:'
