@@ -106,6 +106,23 @@ if args.build:
         print project_name+": "+"updating - "+manifest_version+ " to "+new_version
         output_line = re.sub(r"revision=\".*?\"","revision=\"refs/tags/"+new_version+"\"",line)
 
+    # deal with reference entries by picking up their latest tag and putting it in
+    m = re.search('<project name="(.*?)".*?revision="(.*?)".*?groups=".*reference.*"',line)
+    if hasattr(m,'group'):
+
+      project_name = m.group(1)
+      manifest_version = m.group(2)
+
+      os.system(
+        'cd '+workspace+'; rm -fr '+project_name+';'
+        +'git clone git@bitbucket.org:motabilityoperations/'+project_name+'.git; cd '+project_name+';'
+        +'git checkout master;'
+        )
+      last_version = versioning_library.get_last_tag(project_name)
+      print project_name+": "+"updating - "+manifest_version+ " to "+last_version
+      output_line = re.sub(r"revision=\".*?\"","revision=\"refs/tags/"+last_version+"\"",line)
+      os.system('cd '+workspace+'; rm -fr '+project_name+';')
+
     manifest_file_handler.write(output_line)
 
   manifest_file_handler.close()
