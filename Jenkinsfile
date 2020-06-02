@@ -9,7 +9,7 @@ pipeline {
     stage("Preparing Tests") {
       steps {
           println "Cloning cp-release"
-          sh "git clone git@bitbucket.org:motabilityoperations/cp-release.git"
+          sh "git clone git@github.com:developerinlondon/platform-release.git"
       }
     }
 

@@ -18,8 +18,8 @@ class ReferenceTestCase(unittest.TestCase):
     os.chdir(self.workspace)
 
     os.system(
-      "git clone git@bitbucket.org:motabilityoperations/manifest-test.git;"
-      +"git clone git@bitbucket.org:motabilityoperations/release-test-reference-repo.git;"
+      "git clone git@github.com:developerinlondon/manifest-test.git;"
+      +"git clone git@github.com:developerinlondon/release-test-reference-repo.git;"
     )
 
     os.chdir('release-test-reference-repo')
