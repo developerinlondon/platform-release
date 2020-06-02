@@ -20,8 +20,8 @@ class ReferenceTestCase(unittest.TestCase):
 
     os.system(
       "git config -l; "+
-      "git clone git@github.com:developerinlondon/manifest-test.git;"
-      +"git clone git@github.com:developerinlondon/release-test-repo.git;"
+      "git clone https://github.com/developerinlondon/manifest-test.git;"
+      +"git clone https://github.com/developerinlondon/release-test-repo.git;"
     )
 
     os.chdir('release-test-repo')
