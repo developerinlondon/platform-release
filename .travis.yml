@@ -3,5 +3,7 @@ python:
   - "2.7"
 # command to install dependencies
 # command to run tests
+install:
+  - pip install .
 script:
   - cd tests; for i in test_*.py; do python $i; done
