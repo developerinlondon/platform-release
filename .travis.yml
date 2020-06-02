@@ -1,0 +1,7 @@
+language: python
+python:
+  - "2.7"
+# command to install dependencies
+# command to run tests
+script:
+  - cd tests; for i in test_*.py; do python $i; done
