@@ -71,7 +71,7 @@ if args.build:
       #### tag repo
       os.system(
         'cd '+workspace+'; rm -fr '+project_name+';'
-        +'git clone git@bitbucket.org:motabilityoperations/'+project_name+'.git; cd '+project_name+';'
+        +'git clone https://github.com/developerinlondon/'+project_name+'.git; cd '+project_name+';'
         +'git checkout master'
         )
 
