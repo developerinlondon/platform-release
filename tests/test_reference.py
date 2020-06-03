@@ -11,6 +11,8 @@ import versioning_library
 
 class ReferenceTestCase(unittest.TestCase):
   def setUp(self):
+    #self.expected_tag = 'refs/tags/0.1.0')
+    self.expected_tag = 'refs/tags/0.0.0'
     self.cwd = os.getcwd()
     self.workspace = self.cwd+'/workspace'
 
@@ -18,8 +20,8 @@ class ReferenceTestCase(unittest.TestCase):
     os.chdir(self.workspace)
 
     os.system(
-      "git clone git@github.com:developerinlondon/manifest-test.git;"
-      +"git clone git@github.com:developerinlondon/release-test-reference-repo.git;"
+      "git clone https://github.com/developerinlondon/manifest-test.git;"
+      +"git clone https://github.com/developerinlondon/release-test-reference-repo.git;"
     )
 
     os.chdir('release-test-reference-repo')
@@ -30,7 +32,7 @@ class ReferenceTestCase(unittest.TestCase):
     ##################################
     os.chdir('../../..');
     os.system('./manifest_release.py --manifest-release-type hotfix --repo-release-type hotfix --build --manifest-repo manifest-test --manifest-version master;')
-    os.system('./manifest_release.py --apply;')
+   # os.system('./manifest_release.py --apply;')
 
   def testReference(self):
     self.manifest_workspace = self.cwd+'/../workspace'
@@ -41,14 +43,14 @@ class ReferenceTestCase(unittest.TestCase):
       if hasattr(m,'group'):
         revision = m.group(1)
         print revision
-        self.assertEqual(revision, 'refs/tags/0.1.0')
+        self.assertEqual(revision, self.expected_tag)
 
   def tearDown(self):
     os.chdir(self.workspace+'/../../')
     os.system("./manifest_release.py --undo;")
     os.chdir('tests/workspace')
     os.chdir('release-test-reference-repo')
-    os.system('git push origin --tags :0.1.0')
+   # os.system('git push origin --tags :0.1.0')
 
 
 if __name__ == '__main__':

@@ -51,7 +51,7 @@ outputfile = workspace + '/output.xml'
 if args.build:
   os.system( 'rm -fr '+workspace+'; mkdir -p '+workspace)
   os.chdir(workspace)
-  os.system('git clone git@bitbucket.org:motabilityoperations/'+args.manifest_repo+'.git; cd '+args.manifest_repo+'; git checkout '+args.manifest_version+';')
+  os.system('git clone https://github.com/developerinlondon/'+args.manifest_repo+'.git; cd '+args.manifest_repo+'; git checkout '+args.manifest_version+';')
   os.chdir(workspace+'/'+args.manifest_repo)
 
   manifest_file_handler = open(outputfile,'w')
@@ -71,7 +71,7 @@ if args.build:
       #### tag repo
       os.system(
         'cd '+workspace+'; rm -fr '+project_name+';'
-        +'git clone git@bitbucket.org:motabilityoperations/'+project_name+'.git; cd '+project_name+';'
+        +'git clone https://github.com/developerinlondon/'+project_name+'.git; cd '+project_name+';'
         +'git checkout master'
         )
 
@@ -115,7 +115,7 @@ if args.build:
 
       os.system(
         'cd '+workspace+'; rm -fr '+project_name+';'
-        +'git clone git@bitbucket.org:motabilityoperations/'+project_name+'.git; cd '+project_name+';'
+        +'git clone https://github.com/developerinlondon/'+project_name+'.git; cd '+project_name+';'
         +'git checkout master;'
         )
       last_version = versioning_library.get_last_tag(project_name)
