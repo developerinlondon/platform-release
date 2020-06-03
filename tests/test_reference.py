@@ -11,6 +11,8 @@ import versioning_library
 
 class ReferenceTestCase(unittest.TestCase):
   def setUp(self):
+    #self.expected_tag = 'refs/tags/0.1.0')
+    self.expected_tag = 'refs/tags/0.0.0'
     self.cwd = os.getcwd()
     self.workspace = self.cwd+'/workspace'
 
@@ -41,7 +43,7 @@ class ReferenceTestCase(unittest.TestCase):
       if hasattr(m,'group'):
         revision = m.group(1)
         print revision
-        self.assertEqual(revision, 'refs/tags/0.1.0')
+        self.assertEqual(revision, self.expected_tag)
 
   def tearDown(self):
     os.chdir(self.workspace+'/../../')

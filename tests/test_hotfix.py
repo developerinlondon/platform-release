@@ -11,7 +11,8 @@ import re
 
 class ReferenceTestCase(unittest.TestCase):
   def setUp(self):
-    self.expected_tag = "refs/tags/0.1.1"
+    #self.expected_tag = "refs/tags/0.1.1"
+    self.expected_tag = "refs/tags/0.0.1"
 
     self.cwd = os.getcwd()
     self.workspace = self.cwd+'/workspace'
