@@ -6,4 +6,3 @@ Sorry didnt get a chance to write up a detailed guideline how it works yet!
 
 
 Now includes TravisCI Tests.
-
