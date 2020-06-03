@@ -30,7 +30,7 @@ class ReferenceTestCase(unittest.TestCase):
     ##################################
     os.chdir('../../..');
     os.system('./manifest_release.py --manifest-release-type hotfix --repo-release-type hotfix --build --manifest-repo manifest-test --manifest-version master;')
-    os.system('./manifest_release.py --apply;')
+   # os.system('./manifest_release.py --apply;')
 
   def testReference(self):
     self.manifest_workspace = self.cwd+'/../workspace'
@@ -48,7 +48,7 @@ class ReferenceTestCase(unittest.TestCase):
     os.system("./manifest_release.py --undo;")
     os.chdir('tests/workspace')
     os.chdir('release-test-reference-repo')
-    os.system('git push origin --tags :0.1.0')
+   # os.system('git push origin --tags :0.1.0')
 
 
 if __name__ == '__main__':

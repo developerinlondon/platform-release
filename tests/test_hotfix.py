@@ -31,7 +31,7 @@ class ReferenceTestCase(unittest.TestCase):
 
     os.chdir('../../..');
     os.system('./manifest_release.py --manifest-release-type hotfix --repo-release-type hotfix --build --verbose --manifest-repo manifest-test --manifest-version master;')
-    os.system('./manifest_release.py --apply;')
+    #os.system('./manifest_release.py --apply;')
 
   def testReleaseTag(self):
     self.manifest_workspace = self.cwd+'/../workspace'
@@ -50,7 +50,7 @@ class ReferenceTestCase(unittest.TestCase):
     os.system(
       "git config -l; "+
       " git reset --hard HEAD~1;"
-      +" git push origin master -f"
+      #+" git push origin master -f"
     )
 
 
