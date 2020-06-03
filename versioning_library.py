@@ -5,7 +5,7 @@ import string
 import sys
 
 def get_last_tag(repo_name):
-  version = commands.getstatusoutput("git ls-remote --tags git@bitbucket.org:motabilityoperations/"+repo_name+" 2>/dev/null | awk -F/ -f "+os.path.dirname(os.path.realpath(__file__))+"/latest_tag.awk")
+  version = commands.getstatusoutput("git ls-remote --tags https://github.com/developerinlondon/"+repo_name+" 2>/dev/null | awk -F/ -f "+os.path.dirname(os.path.realpath(__file__))+"/latest_tag.awk")
   if version[1] == '':
     return '0.0.0'
   else:
